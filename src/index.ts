@@ -17,3 +17,20 @@ const action = unwrap(
     ],
   }),
 );
+
+if (action === "gen") {
+  const projectKind = unwrap(
+    await select({
+      message: "What would you like to generate?",
+      options: [
+        { value: "library", label: "Library" },
+        {
+          value: "app",
+          label: "App",
+          disabled: true,
+          hint: COMING_SOON_MESSAGE,
+        },
+      ],
+    }),
+  );
+}
