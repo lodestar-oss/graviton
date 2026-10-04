@@ -75,7 +75,7 @@ if (action === "GEN") {
   const template =
     projectKind === "LIB" ? "little-nebulae/little-nebula" : "RyanLurn/base-4";
   log.step(`Creating ${repoName} from ${template} template...`);
-  const { exitCode, stderr } = await x(
+  const createRepoResult = await x(
     "gh",
     [
       "repo",
@@ -88,14 +88,16 @@ if (action === "GEN") {
     ],
     { timeout: 60_000, nodeOptions: { cwd: initialCwd } },
   );
-  if (exitCode !== 0) {
-    log.error(stderr);
+  if (createRepoResult.exitCode !== 0) {
+    log.error(createRepoResult.stderr);
     process.exit(EXIT_CODE.FAILURE.GENERIC);
   }
   log.success(`Created ${repoName} successfully!`);
 
+  const repoPath = join(initialCwd, repoName);
+
   // Change the template's package name into this repo's package name
-  const packageJsonPath = join(initialCwd, repoName, "package.json");
+  const packageJsonPath = join(repoPath, "package.json");
   const result = validate<PackageJson>(
     await readFile(packageJsonPath, {
       encoding: "utf-8",
