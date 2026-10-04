@@ -138,10 +138,12 @@ if (action === "GEN") {
     nodeOptions: { cwd: repoPath },
   });
   if (installResult.exitCode !== 0) {
-    log.error(installResult.stderr);
-    process.exit(EXIT_CODE.FAILURE.GENERIC);
+    log.warn("Failed to install dependencies.");
+    log.warn(installResult.stderr);
+    log.warn("Skip this step.");
+  } else {
+    log.success("Installed successfully!");
   }
-  log.success("Installed successfully!");
 
   // Operation complete
   outro(`Created ${packageName} at ${repoPath}.`);
