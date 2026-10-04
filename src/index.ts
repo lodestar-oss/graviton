@@ -24,6 +24,7 @@ const args = parse(argv, {
 });
 
 const initialCwd = args.cwd === CURRENT_DIR_PATH ? process.cwd() : args.cwd;
+log.step(`Working directory: ${initialCwd}`);
 
 const action = unwrap(
   await select({
