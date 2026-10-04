@@ -15,6 +15,7 @@
     "tag": "latest"
   },
   "scripts": {
+    "start": "ttsx ./src/index.ts",
     "build": "tsdown",
     "try": "ttsx ./src/try.ts",
     "fmt": "oxfmt --disable-nested-config",

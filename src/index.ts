@@ -1,7 +1,15 @@
-import { select } from "@clack/prompts";
+import { outro, select, text } from "@clack/prompts";
+import { mkdir } from "node:fs/promises";
+import { basename, join } from "node:path";
 
-import { COMING_SOON_MESSAGE, CURRENT_DIR_PATH } from "@/constants";
+import {
+  COMING_SOON_MESSAGE,
+  CURRENT_DIR_PATH,
+  PACKAGE_SCOPE,
+} from "@/constants";
 import { unwrap } from "@/lib/clack/unwrap";
+
+const initialCwd = process.cwd();
 
 const action = unwrap(
   await select({
@@ -50,4 +58,43 @@ if (action === "GEN") {
       ],
     }),
   );
+
+  let repoName = basename(initialCwd);
+  if (dirPathKind === "NEW_CHILD") {
+    repoName = unwrap(
+      await text({
+        message: "What is the repository's name?",
+      }),
+    );
+    await mkdir(join(initialCwd, repoName));
+  }
+
+  const packageScope = unwrap(
+    await select({
+      message: "What is the package's scope?",
+      options: [
+        { value: PACKAGE_SCOPE.NONE, label: "None" },
+        {
+          value: PACKAGE_SCOPE.LITTLE_NEBULAE,
+          label: PACKAGE_SCOPE.LITTLE_NEBULAE,
+        },
+        {
+          value: PACKAGE_SCOPE.LODESTAR_OSS,
+          label: PACKAGE_SCOPE.LODESTAR_OSS,
+        },
+      ],
+    }),
+  );
+
+  const packageName = unwrap(
+    await text({
+      message: "What is the package's name?",
+      initialValue:
+        packageScope === PACKAGE_SCOPE.NONE
+          ? repoName
+          : `${packageScope}/${repoName}`,
+    }),
+  );
+
+  outro(`Generated package: ${packageName}`);
 }
