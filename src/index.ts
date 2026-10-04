@@ -101,7 +101,7 @@ if (action === "GEN") {
       "--template",
       template,
     ],
-    { timeout: 60_000, nodeOptions: { cwd: initialCwd } },
+    { timeout: 90_000, nodeOptions: { cwd: initialCwd } },
   );
   if (createRepoResult.exitCode !== 0) {
     log.error(createRepoResult.stderr);
