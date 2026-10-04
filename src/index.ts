@@ -146,12 +146,11 @@ if (action === "GEN") {
   }
 
   // Commit changes and push
+  log.step("Committing changes and pushing to remote...");
   const addResult = await x("git", ["add", "-A"], {
     nodeOptions: { cwd: repoPath },
   });
-  if (addResult.exitCode === 0 && addResult.stdout.trim().length === 0) {
-    log.info("No changes to commit.");
-  } else if (addResult.exitCode !== 0) {
+  if (addResult.exitCode !== 0) {
     log.warn("Failed to add changes.");
     log.warn(addResult.stderr);
     log.warn("Skip adding package name change.");
@@ -177,7 +176,7 @@ if (action === "GEN") {
         log.warn(pushResult.stderr);
         log.warn("Skip pushing package name change.");
       } else {
-        log.success("Setup done. Pushed changes to remote.");
+        log.success("Changes committed and pushed changes to remote.");
       }
     }
   }
