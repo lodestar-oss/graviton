@@ -115,4 +115,16 @@ if (action === "GEN") {
     const newPackageJson = { ...result.data, name: packageName };
     await writeFile(packageJsonPath, JSON.stringify(newPackageJson, null, 2));
   }
+
+  // Run pnpm install
+  log.step(`Installing dependencies for ${packageName}...`);
+  const installResult = await x("pnpm", ["install"], {
+    timeout: 60_000,
+    nodeOptions: { cwd: repoPath },
+  });
+  if (installResult.exitCode !== 0) {
+    log.error(installResult.stderr);
+    process.exit(EXIT_CODE.FAILURE.GENERIC);
+  }
+  log.success("Installed successfully!");
 }
