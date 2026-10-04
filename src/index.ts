@@ -113,11 +113,11 @@ if (action === "GEN") {
 
   // Change the template's package name into this repo's package name
   const packageJsonPath = join(repoPath, "package.json");
-  const result = validate<PackageJson>(
-    await readFile(packageJsonPath, {
-      encoding: "utf-8",
-    }),
-  );
+  const packageJsonText = await readFile(packageJsonPath, {
+    encoding: "utf-8",
+  });
+  const packageJson = JSON.parse(packageJsonText);
+  const result = validate<PackageJson>(packageJson);
   if (!result.success) {
     log.warn("Failed to validate the content of package.json file.");
     for (const error of result.errors) {
