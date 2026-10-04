@@ -1,15 +1,29 @@
 import type { PackageJson } from "type-fest";
 
+import { parse } from "@bomb.sh/args";
 import { log, outro, select, text } from "@clack/prompts";
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { x } from "tinyexec";
 import { validate } from "typia";
 
-import { COMING_SOON_MESSAGE, EXIT_CODE, ORG } from "@/constants";
+import {
+  COMING_SOON_MESSAGE,
+  CURRENT_DIR_PATH,
+  EXIT_CODE,
+  ORG,
+  WORKING_DIRECTORY_OPTION,
+} from "@/constants";
 import { unwrap } from "@/lib/clack/unwrap";
 
-const initialCwd = process.cwd();
+const argv = process.argv.slice(2);
+const args = parse(argv, {
+  string: [WORKING_DIRECTORY_OPTION.LONG],
+  alias: { [WORKING_DIRECTORY_OPTION.SHORT]: WORKING_DIRECTORY_OPTION.LONG },
+  default: { [WORKING_DIRECTORY_OPTION.LONG]: CURRENT_DIR_PATH },
+});
+
+const initialCwd = args.cwd === CURRENT_DIR_PATH ? process.cwd() : args.cwd;
 
 const action = unwrap(
   await select({

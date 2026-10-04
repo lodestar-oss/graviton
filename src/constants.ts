@@ -1,3 +1,8 @@
+export const WORKING_DIRECTORY_OPTION = {
+  LONG: "cwd",
+  SHORT: "C",
+} as const;
+
 export const COMING_SOON_MESSAGE = "Coming soon...";
 export const OPERATION_CANCELED_MESSAGE = "Operation canceled.";
 
