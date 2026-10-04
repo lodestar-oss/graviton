@@ -1,5 +1,10 @@
+import type { PackageJson } from "type-fest";
+
 import { log, outro, select, text } from "@clack/prompts";
+import { readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import { x } from "tinyexec";
+import { validate } from "typia";
 
 import { COMING_SOON_MESSAGE, EXIT_CODE, ORG } from "@/constants";
 import { unwrap } from "@/lib/clack/unwrap";
@@ -88,4 +93,24 @@ if (action === "GEN") {
     process.exit(EXIT_CODE.FAILURE.GENERIC);
   }
   log.success(`Created ${repoName} successfully!`);
+
+  // Change the template's package name into this repo's package name
+  const packageJsonPath = join(initialCwd, repoName, "package.json");
+  const result = validate<PackageJson>(
+    await readFile(packageJsonPath, {
+      encoding: "utf-8",
+    }),
+  );
+  if (!result.success) {
+    log.warn("Failed to validate the content of package.json file.");
+    for (const error of result.errors) {
+      log.warn(
+        `${error.path}: expected ${error.expected}, got ${JSON.stringify(error.value)}`,
+      );
+    }
+    log.warn("Skip changing the package's name.");
+  } else {
+    const newPackageJson = { ...result.data, name: packageName };
+    await writeFile(packageJsonPath, JSON.stringify(newPackageJson, null, 2));
+  }
 }
