@@ -7,9 +7,9 @@ const action = unwrap(
   await select({
     message: "What would you like to do?",
     options: [
-      { value: "gen", label: "Generate code" },
+      { value: "GEN", label: "Generate code" },
       {
-        value: "commit",
+        value: "COMMIT",
         label: "Commit work",
         disabled: true,
         hint: COMING_SOON_MESSAGE,
@@ -18,14 +18,14 @@ const action = unwrap(
   }),
 );
 
-if (action === "gen") {
+if (action === "GEN") {
   const projectKind = unwrap(
     await select({
       message: "What would you like to generate?",
       options: [
-        { value: "library", label: "Library" },
+        { value: "LIB", label: "Library" },
         {
-          value: "app",
+          value: "APP",
           label: "App",
           disabled: true,
           hint: COMING_SOON_MESSAGE,
