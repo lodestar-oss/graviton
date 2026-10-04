@@ -8,3 +8,5 @@ export const EXIT_CODE = {
     INTERRUPTED: 130,
   },
 };
+
+export const CURRENT_DIR_PATH = ".";
