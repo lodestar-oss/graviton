@@ -1,12 +1,6 @@
 import { outro, select, text } from "@clack/prompts";
-import { mkdir } from "node:fs/promises";
-import { basename, join } from "node:path";
 
-import {
-  COMING_SOON_MESSAGE,
-  CURRENT_DIR_PATH,
-  PACKAGE_SCOPE,
-} from "@/constants";
+import { COMING_SOON_MESSAGE, PACKAGE_SCOPE } from "@/constants";
 import { unwrap } from "@/lib/clack/unwrap";
 
 const initialCwd = process.cwd();
@@ -42,32 +36,11 @@ if (action === "GEN") {
     }),
   );
 
-  const dirPathKind = unwrap(
-    await select({
-      message: `Where should the ${projectKind} be generated?`,
-      options: [
-        {
-          value: "CURRENT",
-          label: "The current directory",
-          hint: CURRENT_DIR_PATH,
-        },
-        {
-          value: "NEW_CHILD",
-          label: "A new child directory",
-        },
-      ],
+  const repoName = unwrap(
+    await text({
+      message: "What is the repository's name?",
     }),
   );
-
-  let repoName = basename(initialCwd);
-  if (dirPathKind === "NEW_CHILD") {
-    repoName = unwrap(
-      await text({
-        message: "What is the repository's name?",
-      }),
-    );
-    await mkdir(join(initialCwd, repoName));
-  }
 
   const packageScope = unwrap(
     await select({
