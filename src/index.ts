@@ -145,6 +145,36 @@ if (action === "GEN") {
     log.success("Installed successfully!");
   }
 
+  // Commit changes and push
+  const addResult = await x("git", ["add", "-A"]);
+  if (addResult.exitCode === 0 && addResult.stdout.trim().length === 0) {
+    log.info("No changes to commit.");
+  } else if (addResult.exitCode !== 0) {
+    log.warn("Failed to add changes.");
+    log.warn(addResult.stderr);
+    log.warn("Skip adding package name change.");
+  } else {
+    const commitResult = await x("git", [
+      "commit",
+      "-m",
+      `chore: complete setup.`,
+    ]);
+    if (commitResult.exitCode !== 0) {
+      log.warn("Failed to commit changes.");
+      log.warn(commitResult.stderr);
+      log.warn("Skip commiting package name change.");
+    } else {
+      const pushResult = await x("git", ["push"]);
+      if (pushResult.exitCode !== 0) {
+        log.warn("Failed to push changes.");
+        log.warn(pushResult.stderr);
+        log.warn("Skip pushing package name change.");
+      } else {
+        log.success("Setup done. Pushed changes to remote.");
+      }
+    }
+  }
+
   // Operation complete
   outro(`Created ${packageName} at ${repoPath}.`);
 }
