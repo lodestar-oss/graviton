@@ -1,6 +1,7 @@
-import { outro, select, text } from "@clack/prompts";
+import { log, outro, select, text } from "@clack/prompts";
+import { x } from "tinyexec";
 
-import { COMING_SOON_MESSAGE, PACKAGE_SCOPE } from "@/constants";
+import { COMING_SOON_MESSAGE, EXIT_CODE, ORG } from "@/constants";
 import { unwrap } from "@/lib/clack/unwrap";
 
 const initialCwd = process.cwd();
@@ -36,38 +37,55 @@ if (action === "GEN") {
     }),
   );
 
+  const org = unwrap(
+    await select({
+      message: "Who owns this project?",
+      options: [
+        { value: ORG.PERSONAL, label: "Me" },
+        {
+          value: ORG.LITTLE_NEBULAE,
+          label: "Little Nebulae",
+          hint: "for libraries",
+        },
+        { value: ORG.LODESTAR_OSS, label: "Lodestar OSS", hint: "for apps" },
+      ],
+      initialValue: projectKind === "LIB" ? "little-nebulae" : "lodestar-oss",
+    }),
+  );
+
   const repoName = unwrap(
     await text({
       message: "What is the repository's name?",
     }),
   );
 
-  const packageScope = unwrap(
-    await select({
-      message: "What is the package's scope?",
-      options: [
-        { value: PACKAGE_SCOPE.NONE, label: "None" },
-        {
-          value: PACKAGE_SCOPE.LITTLE_NEBULAE,
-          label: PACKAGE_SCOPE.LITTLE_NEBULAE,
-        },
-        {
-          value: PACKAGE_SCOPE.LODESTAR_OSS,
-          label: PACKAGE_SCOPE.LODESTAR_OSS,
-        },
-      ],
-    }),
-  );
-
   const packageName = unwrap(
     await text({
       message: "What is the package's name?",
-      initialValue:
-        packageScope === PACKAGE_SCOPE.NONE
-          ? repoName
-          : `${packageScope}/${repoName}`,
+      initialValue: org === ORG.PERSONAL ? repoName : `@${org}/${repoName}`,
     }),
   );
 
-  outro(`Generated package: ${packageName}`);
+  // Create the repo on GitHub then clone it down locally
+  const template =
+    projectKind === "LIB" ? "little-nebulae/little-nebula" : "RyanLurn/base-4";
+  log.step(`Creating ${repoName} from ${template} template...`);
+  const { exitCode, stderr } = await x(
+    "gh",
+    [
+      "repo",
+      "create",
+      org === ORG.PERSONAL ? repoName : `${org}/${repoName}`,
+      "--public",
+      "--clone",
+      "--template",
+      template,
+    ],
+    { timeout: 60_000, nodeOptions: { cwd: initialCwd } },
+  );
+  if (exitCode !== 0) {
+    log.error(stderr);
+    process.exit(EXIT_CODE.FAILURE.GENERIC);
+  }
+  log.success(`Created ${repoName} successfully!`);
 }

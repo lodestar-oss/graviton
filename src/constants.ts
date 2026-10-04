@@ -11,8 +11,8 @@ export const EXIT_CODE = {
 
 export const CURRENT_DIR_PATH = ".";
 
-export const PACKAGE_SCOPE = {
-  NONE: "",
-  LITTLE_NEBULAE: "@little-nebulae",
-  LODESTAR_OSS: "@lodestar-oss",
+export const ORG = {
+  PERSONAL: "",
+  LITTLE_NEBULAE: "little-nebulae",
+  LODESTAR_OSS: "lodestar-oss",
 } as const;
