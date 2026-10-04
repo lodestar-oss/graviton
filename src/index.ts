@@ -127,4 +127,7 @@ if (action === "GEN") {
     process.exit(EXIT_CODE.FAILURE.GENERIC);
   }
   log.success("Installed successfully!");
+
+  // Operation complete
+  outro(`Created ${packageName} at ${repoPath}.`);
 }
