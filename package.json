@@ -44,5 +44,8 @@
       "onFail": "warn"
     }
   },
-  "packageManager": "pnpm@12.8.1"
+  "packageManager": "pnpm@12.8.1",
+  "dependencies": {
+    "@clack/prompts": "1.8.1"
+  }
 }
