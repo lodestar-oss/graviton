@@ -1,0 +1,48 @@
+{
+  "name": "@lodestar-oss/graviton",
+  "version": "0.1.0",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "try": "ttsx ./src/try.ts",
+    "fmt": "oxfmt --disable-nested-config",
+    "fmt:check": "oxfmt --check --disable-nested-config",
+    "lint": "oxlint --disable-nested-config",
+    "lint:fix": "oxlint --fix --disable-nested-config",
+    "check": "pnpm run lint && pnpm run fmt:check",
+    "fix": "pnpm run lint:fix && pnpm run fmt",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/core": "0.18.5",
+    "@types/node": "26.6.4",
+    "oxfmt": "0.71.0",
+    "oxlint": "1.86.0",
+    "oxlint-tsgolint": "7.0.2003",
+    "publint": "0.3.25",
+    "tsdown": "0.23.0",
+    "ttsc": "0.30.4",
+    "typescript": "7.0.2",
+    "vitest": "5.0.3"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.8.1",
+      "onFail": "warn"
+    }
+  },
+  "packageManager": "pnpm@12.8.1"
+}
