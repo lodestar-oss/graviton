@@ -146,7 +146,9 @@ if (action === "GEN") {
   }
 
   // Commit changes and push
-  const addResult = await x("git", ["add", "-A"]);
+  const addResult = await x("git", ["add", "-A"], {
+    nodeOptions: { cwd: repoPath },
+  });
   if (addResult.exitCode === 0 && addResult.stdout.trim().length === 0) {
     log.info("No changes to commit.");
   } else if (addResult.exitCode !== 0) {
@@ -154,17 +156,22 @@ if (action === "GEN") {
     log.warn(addResult.stderr);
     log.warn("Skip adding package name change.");
   } else {
-    const commitResult = await x("git", [
-      "commit",
-      "-m",
-      `chore: complete setup.`,
-    ]);
+    const commitResult = await x(
+      "git",
+      ["commit", "-m", `chore: complete setup.`],
+      {
+        nodeOptions: { cwd: repoPath },
+      },
+    );
     if (commitResult.exitCode !== 0) {
       log.warn("Failed to commit changes.");
       log.warn(commitResult.stderr);
       log.warn("Skip commiting package name change.");
     } else {
-      const pushResult = await x("git", ["push"]);
+      const pushResult = await x("git", ["push"], {
+        timeout: 60_000,
+        nodeOptions: { cwd: repoPath },
+      });
       if (pushResult.exitCode !== 0) {
         log.warn("Failed to push changes.");
         log.warn(pushResult.stderr);
