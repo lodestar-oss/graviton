@@ -25,6 +25,9 @@
     "fix": "pnpm run lint:fix && pnpm run fmt",
     "test": "vitest run"
   },
+  "dependencies": {
+    "@clack/prompts": "1.8.1"
+  },
   "devDependencies": {
     "@arethetypeswrong/core": "0.18.5",
     "@types/node": "26.6.4",
@@ -44,8 +47,5 @@
       "onFail": "warn"
     }
   },
-  "packageManager": "pnpm@12.8.1",
-  "dependencies": {
-    "@clack/prompts": "1.8.1"
-  }
+  "packageManager": "pnpm@12.8.1"
 }
