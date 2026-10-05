@@ -8,7 +8,6 @@ export default defineConfig({
   exports: true,
   // Lint options
   publint: true,
-  attw: true,
   // Plugin option
   plugins: [ttsc()],
 });
