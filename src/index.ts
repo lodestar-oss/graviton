@@ -145,6 +145,18 @@ if (action === "GEN") {
     log.success("Installed successfully!");
   }
 
+  // Run formatting
+  const formatResult = await x("pnpm", ["run", "fmt"], {
+    nodeOptions: { cwd: repoPath },
+  });
+  if (formatResult.exitCode !== 0) {
+    log.warn("Failed to format code.");
+    log.warn(formatResult.stderr);
+    log.warn("Skip this step.");
+  } else {
+    log.success("Formatted successfully!");
+  }
+
   // Commit changes and push
   log.step("Committing changes and pushing to remote...");
   const addResult = await x("git", ["add", "-A"], {
