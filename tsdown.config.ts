@@ -4,7 +4,6 @@ import { defineConfig } from "tsdown";
 export default defineConfig({
   // Build options
   entry: ["./src/index.ts"],
-  platform: "node",
   exports: true,
   // Lint options
   publint: true,

@@ -2,6 +2,9 @@
   "name": "@lodestar-oss/graviton",
   "version": "0.1.0",
   "license": "MIT",
+  "bin": {
+    "graviton": "./dist/index.mjs"
+  },
   "files": [
     "dist"
   ],
@@ -55,8 +58,8 @@
       "onFail": "warn"
     }
   },
-  "packageManager": "pnpm@12.9.1",
-  "bin": {
-    "graviton": "./dist/index.mjs"
-  }
+  "engines": {
+    "node": "^24.0.0"
+  },
+  "packageManager": "pnpm@12.9.1"
 }
