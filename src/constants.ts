@@ -1,3 +1,9 @@
+export const VERSION = "0.1.0";
+export const VERSION_OPTION = {
+  LONG: "version",
+  SHORT: "v",
+} as const;
+
 export const WORKING_DIRECTORY_OPTION = {
   LONG: "cwd",
   SHORT: "C",

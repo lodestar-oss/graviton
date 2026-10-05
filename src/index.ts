@@ -14,16 +14,27 @@ import {
   CURRENT_DIR_PATH,
   EXIT_CODE,
   ORG,
+  VERSION,
+  VERSION_OPTION,
   WORKING_DIRECTORY_OPTION,
 } from "@/constants";
 import { unwrap } from "@/lib/clack/unwrap";
 
 const argv = process.argv.slice(2);
 const args = parse(argv, {
+  boolean: [VERSION_OPTION.LONG],
   string: [WORKING_DIRECTORY_OPTION.LONG],
-  alias: { [WORKING_DIRECTORY_OPTION.SHORT]: WORKING_DIRECTORY_OPTION.LONG },
+  alias: {
+    [WORKING_DIRECTORY_OPTION.SHORT]: WORKING_DIRECTORY_OPTION.LONG,
+    [VERSION_OPTION.SHORT]: VERSION_OPTION.LONG,
+  },
   default: { [WORKING_DIRECTORY_OPTION.LONG]: CURRENT_DIR_PATH },
 });
+
+if (args[VERSION_OPTION.LONG]) {
+  console.log(VERSION);
+  process.exit(EXIT_CODE.SUCCESS);
+}
 
 const initialCwd = args.cwd === CURRENT_DIR_PATH ? process.cwd() : args.cwd;
 log.step(`Working directory: ${initialCwd}`);
