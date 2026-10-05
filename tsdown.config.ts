@@ -10,4 +10,7 @@ export default defineConfig({
   publint: true,
   // Plugin option
   plugins: [ttsc()],
+  checks: {
+    bundlerTimings: false,
+  },
 });
