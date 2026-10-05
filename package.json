@@ -3,16 +3,13 @@
   "version": "0.1.0",
   "license": "MIT",
   "bin": {
-    "graviton": "./dist/index.mjs"
+    "graviton": "./dist/index.mjs",
+    "gvt": "./dist/index.mjs"
   },
   "files": [
     "dist"
   ],
   "type": "module",
-  "exports": {
-    ".": "./dist/index.mjs",
-    "./package.json": "./package.json"
-  },
   "publishConfig": {
     "access": "public",
     "tag": "latest"
