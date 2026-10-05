@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import type { PackageJson } from "type-fest";
 
 import { parse } from "@bomb.sh/args";
