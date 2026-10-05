@@ -37,6 +37,7 @@
   "devDependencies": {
     "@arethetypeswrong/core": "0.18.5",
     "@ttsc/paths": "0.30.4",
+    "@ttsc/unplugin": "0.30.4",
     "@types/node": "26.6.4",
     "oxfmt": "0.71.0",
     "oxlint": "1.86.0",

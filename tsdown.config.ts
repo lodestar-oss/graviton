@@ -1,12 +1,14 @@
+import ttsc from "@ttsc/unplugin/rolldown";
 import { defineConfig } from "tsdown";
 
 export default defineConfig({
   // Build options
   entry: ["./src/index.ts"],
-  platform: "neutral",
+  platform: "node",
   exports: true,
-  dts: true,
   // Lint options
   publint: true,
   attw: true,
+  // Plugin option
+  plugins: [ttsc()],
 });
