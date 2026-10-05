@@ -175,9 +175,6 @@ importers:
       tinyexec:
         specifier: 1.3.1
         version: 1.3.1
-      type-fest:
-        specifier: 5.10.0
-        version: 5.10.0
       typia:
         specifier: 15.1.0
         version: 15.1.0(ttsc@0.30.4)
@@ -212,6 +209,9 @@ importers:
       ttsc:
         specifier: 0.30.4
         version: 0.30.4
+      type-fest:
+        specifier: 5.10.0
+        version: 5.10.0
       typescript:
         specifier: 7.0.2
         version: 7.0.2

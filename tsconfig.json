@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "types": ["node", "vitest"],
+    "types": ["node", "type-fest", "vitest"],
     "lib": ["ESNext"],
     "target": "esnext",
     "module": "preserve",
